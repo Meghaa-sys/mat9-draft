@@ -1055,7 +1055,7 @@ body {
   /* -- LOGO: Larger and more dominant on mobile -- */
   .logo-wrapper {
     margin-top: 52px;      /* pull logo away from top yellow blob */
-    margin-bottom: 90px;   /* push content down near bottom yellow blob */
+    margin-bottom: 16px;   /* tagline stays close under logo */
   }
 
   .logo-word-makeaton {
@@ -1087,10 +1087,10 @@ body {
     display: none;
   }
 
-  /* -- Tagline: generous breathing room -- */
+  /* -- Tagline: right under logo, big gap below before cards -- */
   .tagline-pill-container {
-    margin-top: 4px;
-    margin-bottom: 20px;   /* push cards further below */
+    margin-top: 0;
+    margin-bottom: 60px;   /* push cards/countdown down near yellow blob */
   }
 
   .tagline-pill {
