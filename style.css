@@ -1055,7 +1055,7 @@ body {
   /* -- LOGO: Larger and more dominant on mobile -- */
   .logo-wrapper {
     margin-top: 8px;
-    margin-bottom: 40px;   /* push all content below further down */
+    margin-bottom: 90px;   /* push content down near bottom yellow blob */
   }
 
   .logo-word-makeaton {
