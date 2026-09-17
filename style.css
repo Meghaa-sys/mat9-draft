@@ -92,14 +92,6 @@ body {
   100% { transform: scale(1);   opacity: 0.65; box-shadow: none; }
 }
 
-/* ── Spawned tap sparkle: bigger, faster, punchier ── */
-@keyframes touch-sparkle-in {
-  0%   { transform: translate(-50%,-50%) scale(0)   rotate(0deg);  opacity: 1; }
-  30%  { transform: translate(-50%,-50%) scale(1.8)  rotate(35deg); opacity: 1; }
-  65%  { transform: translate(-50%,-50%) scale(1.1)  rotate(65deg); opacity: 0.8; }
-  100% { transform: translate(-50%,-50%) scale(0)   rotate(90deg); opacity: 0; }
-}
-
 .doodle.touch-pop {
   animation: doodle-pop 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
   z-index: 30 !important;
@@ -108,15 +100,6 @@ body {
 .doodle-dot.touch-pop {
   animation: dot-burst 0.5s ease-out forwards !important;
   border-radius: 50%;
-}
-
-.tap-sparkle {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  width: 32px;
-  height: 32px;
-  animation: touch-sparkle-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 /* ==========================================================================
