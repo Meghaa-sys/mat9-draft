@@ -1055,7 +1055,7 @@ body {
   /* -- LOGO: Larger and more dominant on mobile -- */
   .logo-wrapper {
     margin-top: 8px;
-    margin-bottom: 24px;   /* generous gap before tagline + cards */
+    margin-bottom: 40px;   /* push all content below further down */
   }
 
   .logo-word-makeaton {
