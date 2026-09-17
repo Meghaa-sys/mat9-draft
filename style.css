@@ -74,41 +74,49 @@ body {
    MOBILE TOUCH INTERACTIONS — DOODLES & BACKGROUND
    ========================================================================== */
 
+/* ── Star / circle doodle: scale burst + blink flash ── */
 @keyframes doodle-pop {
-  0%   { transform: scale(1) rotate(0deg); }
-  25%  { transform: scale(1.75) rotate(18deg); }
-  55%  { transform: scale(0.85) rotate(-8deg); }
-  80%  { transform: scale(1.15) rotate(4deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0%   { transform: scale(1)    rotate(0deg);  opacity: 0.55; filter: brightness(1);   }
+  15%  { transform: scale(2.2)  rotate(22deg); opacity: 1;    filter: brightness(2.5) drop-shadow(0 0 6px #FFD200); }
+  35%  { transform: scale(0.7)  rotate(-10deg);opacity: 1;    filter: brightness(1);   }
+  55%  { transform: scale(1.6)  rotate(8deg);  opacity: 1;    filter: brightness(2) drop-shadow(0 0 4px #FFD200); }
+  75%  { transform: scale(0.9)  rotate(-4deg); opacity: 0.9;  filter: brightness(1);   }
+  100% { transform: scale(1)    rotate(0deg);  opacity: 0.55; filter: brightness(1);   }
 }
 
+/* ── Dot: glow ring ripple burst ── */
 @keyframes dot-burst {
-  0%   { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(245,199,56,0.6); }
-  60%  { transform: scale(2.8); opacity: 0.5; box-shadow: 0 0 0 8px rgba(245,199,56,0); }
-  100% { transform: scale(3.5); opacity: 0; }
+  0%   { transform: scale(1);   opacity: 0.65; box-shadow: 0 0 0 0   rgba(255,210,0,0.8); }
+  35%  { transform: scale(2.6); opacity: 1;    box-shadow: 0 0 0 6px rgba(255,210,0,0.4); }
+  70%  { transform: scale(3.8); opacity: 0.4;  box-shadow: 0 0 0 12px rgba(255,210,0,0);  }
+  100% { transform: scale(1);   opacity: 0.65; box-shadow: none; }
 }
 
+/* ── Spawned tap sparkle: bigger, faster, punchier ── */
 @keyframes touch-sparkle-in {
-  0%   { transform: translate(-50%,-50%) scale(0) rotate(0deg); opacity: 1; }
-  45%  { transform: translate(-50%,-50%) scale(1.3) rotate(45deg); opacity: 1; }
-  100% { transform: translate(-50%,-50%) scale(0) rotate(90deg); opacity: 0; }
+  0%   { transform: translate(-50%,-50%) scale(0)   rotate(0deg);  opacity: 1; }
+  30%  { transform: translate(-50%,-50%) scale(1.8)  rotate(35deg); opacity: 1; }
+  65%  { transform: translate(-50%,-50%) scale(1.1)  rotate(65deg); opacity: 0.8; }
+  100% { transform: translate(-50%,-50%) scale(0)   rotate(90deg); opacity: 0; }
 }
 
 .doodle.touch-pop {
-  animation: doodle-pop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+  animation: doodle-pop 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+  z-index: 30 !important;
 }
 
 .doodle-dot.touch-pop {
-  animation: dot-burst 0.42s ease-out forwards !important;
+  animation: dot-burst 0.5s ease-out forwards !important;
+  border-radius: 50%;
 }
 
 .tap-sparkle {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  width: 24px;
-  height: 24px;
-  animation: touch-sparkle-in 0.55s ease-out forwards;
+  width: 32px;
+  height: 32px;
+  animation: touch-sparkle-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 /* ==========================================================================

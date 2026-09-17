@@ -103,11 +103,25 @@ function spawnSparkle(x, y) {
   svg.addEventListener('animationend', () => svg.remove(), { once: true });
 }
 
-// Pop animation on a doodle/dot element
+// Pop animation on a doodle/dot element — also flashes SVG fill for blink effect
 function popDoodle(el) {
   el.classList.remove('touch-pop');
   void el.offsetWidth; // force reflow to restart animation
   el.classList.add('touch-pop');
+
+  // Flash SVG paths: yellow → black → original (blink)
+  const paths = el.querySelectorAll('path, circle, polygon, line');
+  paths.forEach(p => {
+    const orig = p.getAttribute('fill') || p.getAttribute('stroke');
+    if (!orig || orig === 'none') return;
+    const isStroke = p.getAttribute('fill') === 'none';
+    const attr = isStroke ? 'stroke' : 'fill';
+    p.setAttribute(attr, '#FFD200');
+    setTimeout(() => p.setAttribute(attr, '#111111'), 120);
+    setTimeout(() => p.setAttribute(attr, '#FFD200'), 240);
+    setTimeout(() => p.setAttribute(attr, orig),     360);
+  });
+
   el.addEventListener('animationend', () => el.classList.remove('touch-pop'), { once: true });
 }
 
