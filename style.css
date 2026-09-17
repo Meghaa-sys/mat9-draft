@@ -1054,7 +1054,7 @@ body {
 
   /* -- LOGO: Larger and more dominant on mobile -- */
   .logo-wrapper {
-    margin-top: 8px;
+    margin-top: 52px;      /* pull logo away from top yellow blob */
     margin-bottom: 90px;   /* push content down near bottom yellow blob */
   }
 
