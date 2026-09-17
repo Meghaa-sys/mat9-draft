@@ -110,8 +110,8 @@ body {
   position: absolute;
   z-index: 6;
   display: grid;
-  grid-template-columns: repeat(6, 26px);
-  grid-template-rows: repeat(5, 26px);
+  grid-template-columns: repeat(6, var(--cell-size, 26px));
+  grid-template-rows: repeat(5, var(--cell-size, 26px));
   pointer-events: auto;
   border: none;
   background-color: transparent;
@@ -130,8 +130,8 @@ body {
 
 .grid-cell {
   position: relative;
-  width: 26px;
-  height: 26px;
+  width: var(--cell-size, 26px);
+  height: var(--cell-size, 26px);
   border-right: 1.2px solid rgba(245, 199, 56, 0.4);
   border-bottom: 1.2px solid rgba(245, 199, 56, 0.4);
   background-color: transparent;
@@ -1205,9 +1205,23 @@ body {
     opacity: 0.28;
   }
 
-  /* Hide interactive grids on mobile */
+  /* Grids on mobile: smaller cells, flush to corners */
   .interactive-grid {
-    display: none;
+    --cell-size: 18px;
+    display: grid;
+    grid-template-columns: repeat(6, 18px);
+    grid-template-rows: repeat(5, 18px);
+    opacity: 0.85;
+  }
+
+  .grid-top-left {
+    top: 44px;    /* just below top tape */
+    left: 6px;    /* flush to left edge */
+  }
+
+  .grid-bottom-right {
+    bottom: 44px; /* just above bottom tape */
+    right: 6px;   /* flush to right edge */
   }
 }
 
