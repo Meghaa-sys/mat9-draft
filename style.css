@@ -469,7 +469,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 0;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 /* Top Curly Swirl */
@@ -493,22 +493,22 @@ body {
 }
 
 .accent-left {
-  left: -40px;
+  left: -44px;
   transform: translateY(-50%) rotate(-18deg);
 }
 
 .accent-right {
-  right: -40px;
+  right: -44px;
   transform: translateY(-50%) rotate(18deg);
 }
 
 .accent-bar {
-  width: 6.5px;
-  height: clamp(22px, 3.8vh, 30px);
+  width: 7px;
+  height: clamp(22px, 3.8vh, 32px);
   background-color: var(--brand-yellow);
   border: 2px solid var(--brand-black);
   border-radius: 4px;
-  box-shadow: 2px 2px 0 var(--brand-black);
+  box-shadow: 2.5px 2.5px 0 var(--brand-black);
 }
 
 /* Composite Lettering */
@@ -519,21 +519,28 @@ body {
   user-select: none;
 }
 
+/* MAKEATON — fills width, massive block shadow downward */
 .logo-word-makeaton {
   display: flex;
   justify-content: center;
   font-family: 'Lilita One', 'Bangers', cursive, sans-serif;
-  font-size: clamp(60px, 12.2vh, 108px);
-  line-height: 0.82;
-  letter-spacing: 0.8px;
+  font-size: clamp(68px, 13.5vh, 116px);
+  line-height: 0.84;
+  letter-spacing: 2px;
   color: var(--brand-yellow);
-  -webkit-text-stroke: clamp(3.5px, 0.48vh, 4.8px) var(--brand-black);
-  text-shadow: 
-    0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000,
-    0 5px 0 #000, 0 6px 0 #000, 0 7px 0 #000, 0 8px 0 #000,
-    0 9px 0 #000, 0 10px 0 #000, 0 11px 0 #000, 0 12px 0 #000,
-    0 13px 0 #000, 0 14px 0 #000;
-  filter: drop-shadow(0 4px 0 #000000);
+  /* Paint stroke UNDER fill so yellow shows cleanly */
+  -webkit-text-stroke: clamp(4px, 0.55vh, 6px) var(--brand-black);
+  paint-order: stroke fill;
+  /* Stacked solid block shadow — pure comic book 3D */
+  text-shadow:
+    2px 2px 0 #000,
+    4px 4px 0 #000,
+    6px 6px 0 #000,
+    8px 8px 0 #000,
+    10px 10px 0 #000,
+    12px 12px 0 #000,
+    14px 14px 0 #000,
+    15px 15px 0 #000;
 }
 
 .logo-char {
@@ -542,26 +549,31 @@ body {
 }
 
 .logo-char:hover {
-  transform: translateY(-4px) scale(1.06);
+  transform: translateY(-5px) scale(1.07);
 }
 
+/* 9.0 — slightly smaller, same block shadow treatment */
 .logo-word-version {
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Lilita One', 'Bangers', cursive, sans-serif;
-  font-size: clamp(50px, 10.2vh, 90px);
-  line-height: 0.78;
+  font-size: clamp(54px, 10.8vh, 96px);
+  line-height: 0.80;
   color: var(--brand-yellow);
-  -webkit-text-stroke: clamp(3.2px, 0.45vh, 4.4px) var(--brand-black);
-  text-shadow: 
-    0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000,
-    0 5px 0 #000, 0 6px 0 #000, 0 7px 0 #000, 0 8px 0 #000,
-    0 9px 0 #000, 0 10px 0 #000, 0 11px 0 #000, 0 12px 0 #000,
-    0 13px 0 #000;
-  filter: drop-shadow(0 4px 0 #000000);
-  margin-top: -16px;
+  -webkit-text-stroke: clamp(3.5px, 0.50vh, 5.5px) var(--brand-black);
+  paint-order: stroke fill;
+  text-shadow:
+    2px 2px 0 #000,
+    4px 4px 0 #000,
+    6px 6px 0 #000,
+    8px 8px 0 #000,
+    10px 10px 0 #000,
+    12px 12px 0 #000,
+    13px 13px 0 #000;
+  margin-top: -10px;
   z-index: 3;
+  letter-spacing: 6px;
 }
 
 .version-char {
@@ -570,7 +582,7 @@ body {
 }
 
 .version-char.dot {
-  margin: 0 -1px;
+  margin: 0 2px;
 }
 
 .version-char:hover {
@@ -1010,13 +1022,14 @@ body {
     min-height: 640px;
     padding: 60px 0;
   }
-  
+
   .logo-word-makeaton {
-    font-size: 84px;
+    font-size: 88px;
+    letter-spacing: 1px;
   }
-  
+
   .logo-word-version {
-    font-size: 72px;
+    font-size: 76px;
   }
 
   .paper-plane-wrapper {
@@ -1024,78 +1037,93 @@ body {
   }
 }
 
+/* ── TABLET: 768px ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hero-container {
-    padding: 55px 12px;
-    min-height: 100vh;
-    height: auto;
+  html, body {
+    overflow: auto;
   }
 
+  .hero-container {
+    padding: 0 16px;
+    min-height: 100svh;
+    height: auto;
+    justify-content: flex-start;
+    padding-top: 60px;
+    padding-bottom: 28px;
+  }
+
+  /* -- LOGO: Larger and more dominant on mobile -- */
   .logo-wrapper {
-    margin-top: 15px;
-    margin-bottom: 6px;
+    margin-top: 8px;
+    margin-bottom: 16px;   /* generous gap before cards/countdown */
   }
 
   .logo-word-makeaton {
-    font-size: 54px;
-    -webkit-text-stroke: 3px var(--brand-black);
-    text-shadow: 
-      0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000,
-      0 5px 0 #000, 0 6px 0 #000, 0 7px 0 #000, 0 8px 0 #000;
+    font-size: clamp(60px, 18vw, 88px);
+    letter-spacing: 1.5px;
+    -webkit-text-stroke: 4px var(--brand-black);
+    text-shadow:
+      2px 2px 0 #000, 4px 4px 0 #000,
+      6px 6px 0 #000, 8px 8px 0 #000,
+      10px 10px 0 #000, 11px 11px 0 #000;
   }
 
   .logo-word-version {
-    font-size: 46px;
-    -webkit-text-stroke: 2.8px var(--brand-black);
-    margin-top: -6px;
-    text-shadow: 
-      0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000,
-      0 5px 0 #000, 0 6px 0 #000, 0 7px 0 #000;
+    font-size: clamp(50px, 15vw, 74px);
+    -webkit-text-stroke: 3.5px var(--brand-black);
+    margin-top: -8px;
+    text-shadow:
+      2px 2px 0 #000, 4px 4px 0 #000,
+      6px 6px 0 #000, 8px 8px 0 #000,
+      9px 9px 0 #000;
   }
 
   .curly-swirl {
-    width: 50px;
-    top: -16px;
+    width: 54px;
+    top: -14px;
   }
 
   .accent-lines {
     display: none;
   }
 
+  /* -- Tagline: generous breathing room -- */
   .tagline-pill-container {
-    margin-top: 10px;
-    margin-bottom: 14px;
+    margin-top: 4px;
+    margin-bottom: 20px;   /* push cards further below */
   }
 
   .tagline-pill {
-    padding: 7px 18px;
+    padding: 8px 20px;
   }
 
   .tagline-text {
-    font-size: 11px;
-    letter-spacing: 0.4px;
+    font-size: 11.5px;
+    letter-spacing: 0.5px;
   }
 
+  /* -- Info cards: column stack, well spaced -- */
   .info-cards-row {
     flex-direction: column;
-    gap: 14px;
-    margin-bottom: 14px;
+    gap: 16px;
+    margin-bottom: 20px;
     width: 100%;
-    max-width: 330px;
+    max-width: 340px;
   }
 
   .info-card {
     width: 100%;
-    padding: 6px 14px 6px 8px;
-    gap: 8px;
+    padding: 8px 16px 8px 10px;
+    gap: 10px;
   }
 
   .card-value {
-    font-size: 11.5px;
+    font-size: 12px;
     white-space: normal;
     text-align: left;
   }
 
+  /* -- Tape strips -- */
   .tape-strip {
     height: 32px;
   }
@@ -1104,8 +1132,9 @@ body {
     font-size: 12px;
   }
 
+  /* -- Countdown -- */
   .countdown-section {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .countdown-heading {
@@ -1121,12 +1150,12 @@ body {
   }
 
   .countdown-tile {
-    width: 52px;
-    height: 50px;
+    width: 54px;
+    height: 52px;
   }
 
   .tile-number {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .tile-label {
@@ -1134,29 +1163,65 @@ body {
   }
 
   .deadline-text {
-    font-size: 9px;
+    font-size: 9.5px;
+    margin-top: 6px;
   }
 
+  /* -- Register button -- */
   .register-btn {
-    padding: 7px 8px 7px 20px;
-    gap: 10px;
+    padding: 8px 10px 8px 22px;
+    gap: 12px;
   }
 
   .btn-text {
-    font-size: 13.5px;
+    font-size: 14px;
   }
 
   .btn-arrow-badge {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
   }
 
   .burst-lines {
     display: none;
   }
 
-  /* Fade out background doodles on mobile so text has total clarity */
+  /* Fade doodles on mobile for text clarity */
   .doodle, .grid-pattern, .paper-plane-wrapper {
-    opacity: 0.35;
+    opacity: 0.28;
+  }
+
+  /* Hide interactive grids on mobile */
+  .interactive-grid {
+    display: none;
+  }
+}
+
+/* ── SMALL PHONE: 480px ────────────────────────────────── */
+@media (max-width: 480px) {
+  .logo-word-makeaton {
+    font-size: clamp(50px, 16vw, 70px);
+    letter-spacing: 0.5px;
+    -webkit-text-stroke: 3.5px var(--brand-black);
+    text-shadow:
+      2px 2px 0 #000, 4px 4px 0 #000,
+      6px 6px 0 #000, 7px 7px 0 #000;
+  }
+
+  .logo-word-version {
+    font-size: clamp(42px, 14vw, 60px);
+    -webkit-text-stroke: 3px var(--brand-black);
+    text-shadow:
+      2px 2px 0 #000, 4px 4px 0 #000,
+      5px 5px 0 #000;
+  }
+
+  .info-cards-row {
+    max-width: 300px;
+  }
+
+  .hero-container {
+    padding-top: 52px;
+    padding-bottom: 20px;
   }
 }
