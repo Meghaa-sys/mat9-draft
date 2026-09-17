@@ -1058,6 +1058,35 @@ body {
     margin-bottom: 16px;   /* tagline stays close under logo */
   }
 
+  /* -- Yellow background blobs: smaller on mobile -- */
+  .wave-top-left {
+    width: 240px;
+    height: 190px;
+    top: -12px;
+    left: -12px;
+  }
+
+  .wave-top-right {
+    width: 220px;
+    height: 180px;
+    top: -12px;
+    right: -12px;
+  }
+
+  .wave-bottom-left {
+    width: 260px;
+    height: 200px;
+    bottom: -18px;
+    left: -12px;
+  }
+
+  .wave-bottom-right {
+    width: 280px;
+    height: 210px;
+    bottom: -18px;
+    right: -18px;
+  }
+
   .logo-word-makeaton {
     font-size: clamp(60px, 18vw, 88px);
     letter-spacing: 1.5px;
