@@ -1102,25 +1102,39 @@ body {
     letter-spacing: 0.5px;
   }
 
-  /* -- Info cards: column stack, well spaced -- */
+  /* -- Info cards: one row side-by-side on mobile -- */
   .info-cards-row {
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 20px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-bottom: 16px;
     width: 100%;
-    max-width: 340px;
+    max-width: 100%;
+    padding: 0 4px;
   }
 
   .info-card {
-    width: 100%;
-    padding: 8px 16px 8px 10px;
-    gap: 10px;
+    flex: 1 1 0;
+    min-width: 0;          /* allow shrink below content size */
+    padding: 6px 10px 6px 8px;
+    gap: 6px;
+    border-radius: 24px;
+  }
+
+  .card-badge {
+    font-size: 9px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .card-value {
-    font-size: 12px;
-    white-space: normal;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: left;
+    min-width: 0;
   }
 
   /* -- Tape strips -- */
@@ -1216,8 +1230,19 @@ body {
       5px 5px 0 #000;
   }
 
+  /* Cards stay in one row on small phones too */
   .info-cards-row {
-    max-width: 300px;
+    gap: 6px;
+    padding: 0 2px;
+  }
+
+  .card-value {
+    font-size: 10px;
+  }
+
+  .card-badge {
+    font-size: 8.5px;
+    padding: 2px 6px;
   }
 
   .hero-container {
