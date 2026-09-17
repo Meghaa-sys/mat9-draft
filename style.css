@@ -334,6 +334,19 @@ body {
   pointer-events: none;
 }
 
+/* Touch ripple for individual dots within halftone clusters */
+@keyframes dot-wave {
+  0%   { r: attr(r); opacity: 1; }
+  40%  { opacity: 0.9; }
+  100% { r: attr(r); opacity: 1; }
+}
+
+.halftone-cluster circle.dot-touched {
+  animation: dot-wave 0.5s ease-out forwards;
+  fill: #FFD200;
+  filter: drop-shadow(0 0 3px rgba(245,180,0,0.7));
+}
+
 .halftone-tl {
   top: 60px;
   left: 30px;
@@ -357,6 +370,7 @@ body {
   right: 140px;
   width: 140px;
 }
+
 
 /* Flight Trail SVG */
 .flight-trail-svg {
@@ -1285,6 +1299,13 @@ body {
 
   .grid-pattern, .paper-plane-wrapper {
     opacity: 0.28;
+  }
+
+  /* Halftone dot clusters: touchable on mobile */
+  .halftone-cluster {
+    pointer-events: auto;
+    cursor: pointer;
+    opacity: 0.9;
   }
 
   /* Grids on mobile: smaller cells, flush to corners */
