@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/mat9-draft/',   // GitHub Pages repo subpath
+  base: './',   // Relative paths work on GitHub Pages, Vercel, Netlify, and local static hosting
 })

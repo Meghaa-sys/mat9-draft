@@ -1,5 +1,3 @@
-import confetti from 'canvas-confetti';
-
 // ==========================================================================
 // COUNTDOWN TIMER LOGIC
 // ==========================================================================
@@ -48,6 +46,10 @@ function initInteractiveGrid(containerId, cols = 6, rows = 5) {
       cell.classList.add('active');
       setTimeout(() => cell.classList.remove('active'), 600);
     });
+    cell.addEventListener('touchstart', () => {
+      cell.classList.add('active');
+      setTimeout(() => cell.classList.remove('active'), 600);
+    }, { passive: true });
     container.appendChild(cell);
   }
 }
@@ -63,8 +65,9 @@ const hero = document.getElementById('hero');
 const paperPlaneVector = document.getElementById('paperPlaneVector');
 const doodles = document.querySelectorAll('.doodle');
 
-if (hero && window.matchMedia('(min-width: 1024px)').matches) {
+if (hero) {
   hero.addEventListener('mousemove', (e) => {
+    if (window.innerWidth < 1024) return;
     const rect = hero.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top)  / rect.height - 0.5;
@@ -77,6 +80,7 @@ if (hero && window.matchMedia('(min-width: 1024px)').matches) {
       doodle.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
     });
   });
+
   hero.addEventListener('mouseleave', () => {
     if (paperPlaneVector) paperPlaneVector.setAttribute('transform', 'translate(1165, 230) rotate(-15)');
     doodles.forEach(d => d.style.transform = 'translate(0, 0)');
@@ -84,7 +88,7 @@ if (hero && window.matchMedia('(min-width: 1024px)').matches) {
 }
 
 // ==========================================================================
-// MOBILE TOUCH HELPERS (shared across all touch interactions)
+// TOUCH & TAP INTERACTIONS (SPARKLES & DOODLE POPPING)
 // ==========================================================================
 
 // Spawn a 4-point sparkle SVG at (x, y) viewport position
@@ -125,90 +129,96 @@ function popDoodle(el) {
   el.addEventListener('animationend', () => el.classList.remove('touch-pop'), { once: true });
 }
 
-// ==========================================================================
-// MOBILE TOUCH — DOODLE STARS, CIRCLES & BACKGROUND SPARKLES
-// ==========================================================================
+// 1. Individual doodle elements (stars, circles, dots) - touch & click
+doodles.forEach(el => {
+  el.addEventListener('touchstart', (e) => {
+    e.stopPropagation();
+    popDoodle(el);
+    const t = e.touches[0];
+    if (t) spawnSparkle(t.clientX, t.clientY);
+  }, { passive: true });
 
-if (window.matchMedia('(max-width: 768px)').matches) {
-
-  // 1. Individual doodle elements (stars, circles, dots)
-  doodles.forEach(el => {
-    el.addEventListener('touchstart', (e) => {
-      e.stopPropagation();
-      popDoodle(el);
-      const t = e.touches[0];
-      spawnSparkle(t.clientX, t.clientY);
-    }, { passive: true });
+  el.addEventListener('click', (e) => {
+    popDoodle(el);
+    spawnSparkle(e.clientX, e.clientY);
   });
+});
 
-  // 2. Background tap → cluster of sparkles at finger position
-  if (hero) {
-    hero.addEventListener('touchstart', (e) => {
-      const tag = e.target.tagName.toLowerCase();
-      const cl  = (e.target.className && typeof e.target.className === 'string') ? e.target.className : '';
-      const skip = ['button', 'input', 'a'].includes(tag) ||
-                   cl.includes('register') || cl.includes('info-card') ||
-                   cl.includes('tape')     || cl.includes('countdown') ||
-                   cl.includes('modal')    || cl.includes('grid-cell') ||
-                   cl.includes('doodle')   || cl.includes('halftone');
-      if (skip) return;
-      const t = e.touches[0];
-      const count = 2 + Math.floor(Math.random() * 2);
-      for (let i = 0; i < count; i++) {
-        const ox = (Math.random() - 0.5) * 30;
-        const oy = (Math.random() - 0.5) * 30;
-        setTimeout(() => spawnSparkle(t.clientX + ox, t.clientY + oy), i * 55);
-      }
-    }, { passive: true });
-  }
+// 2. Background tap → cluster of sparkles at finger position
+if (hero) {
+  hero.addEventListener('touchstart', (e) => {
+    const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+    const cl  = (e.target.className && typeof e.target.className === 'string') ? e.target.className : '';
+    const skip = ['button', 'input', 'a'].includes(tag) ||
+                 cl.includes('register') || cl.includes('info-card') ||
+                 cl.includes('tape')     || cl.includes('countdown') ||
+                 cl.includes('modal')    || cl.includes('grid-cell') ||
+                 cl.includes('doodle')   || cl.includes('halftone');
+    if (skip) return;
+    const t = e.touches[0];
+    if (!t) return;
+    const count = 2 + Math.floor(Math.random() * 2);
+    for (let i = 0; i < count; i++) {
+      const ox = (Math.random() - 0.5) * 30;
+      const oy = (Math.random() - 0.5) * 30;
+      setTimeout(() => spawnSparkle(t.clientX + ox, t.clientY + oy), i * 55);
+    }
+  }, { passive: true });
 }
 
 // ==========================================================================
-// MOBILE TOUCH — HALFTONE DOT CLUSTERS (yellow dot grid)
+// HALFTONE DOT CLUSTERS (yellow dot wave ripples)
 // ==========================================================================
 
-if (window.matchMedia('(max-width: 768px)').matches) {
-  document.querySelectorAll('.halftone-cluster').forEach(cluster => {
-    cluster.addEventListener('touchstart', function(e) {
-      e.stopPropagation();
-      const circles = Array.from(cluster.querySelectorAll('circle'));
-      const touch = e.touches[0];
-      const rect  = cluster.getBoundingClientRect();
-      const svgW  = rect.width  || 130;
-      const svgH  = rect.height || 130;
-      const vbSize = 140; // SVG viewBox is 140×140
+function handleHalftoneTouch(cluster, clientX, clientY) {
+  const circles = Array.from(cluster.querySelectorAll('circle'));
+  const rect  = cluster.getBoundingClientRect();
+  const svgW  = rect.width  || 130;
+  const svgH  = rect.height || 130;
+  const vbSize = 140; // SVG viewBox is 140×140
 
-      // Map touch to SVG viewBox coordinates
-      const tx = ((touch.clientX - rect.left) / svgW) * vbSize;
-      const ty = ((touch.clientY - rect.top)  / svgH) * vbSize;
+  // Map touch to SVG viewBox coordinates
+  const tx = ((clientX - rect.left) / svgW) * vbSize;
+  const ty = ((clientY - rect.top)  / svgH) * vbSize;
 
-      // Sort dots by distance from touch → ripple outward from tap
-      const sorted = circles.slice().sort((a, b) => {
-        const da = Math.hypot(+a.getAttribute('cx') - tx, +a.getAttribute('cy') - ty);
-        const db = Math.hypot(+b.getAttribute('cx') - tx, +b.getAttribute('cy') - ty);
-        return da - db;
-      });
-
-      // Animate each dot with a staggered delay — ripple wave
-      sorted.forEach((circle, i) => {
-        const origFill = circle.getAttribute('fill') || '#F8BC02';
-        setTimeout(() => {
-          circle.style.transition = 'fill 0.1s ease, transform 0.18s ease';
-          circle.style.transformOrigin = `${circle.getAttribute('cx')}px ${circle.getAttribute('cy')}px`;
-          circle.style.fill = '#FFD200';
-          circle.style.transform = 'scale(1.6)';
-          setTimeout(() => {
-            circle.style.fill = origFill;
-            circle.style.transform = 'scale(1)';
-          }, 200);
-        }, i * 25);
-      });
-
-      // Spawn sparkle at touch
-      spawnSparkle(touch.clientX, touch.clientY);
-    }, { passive: true });
+  // Sort dots by distance from touch → ripple outward from tap
+  const sorted = circles.slice().sort((a, b) => {
+    const da = Math.hypot(+a.getAttribute('cx') - tx, +a.getAttribute('cy') - ty);
+    const db = Math.hypot(+b.getAttribute('cx') - tx, +b.getAttribute('cy') - ty);
+    return da - db;
   });
+
+  // Animate each dot with a staggered delay — ripple wave
+  sorted.forEach((circle, i) => {
+    const origFill = circle.getAttribute('fill') || '#F8BC02';
+    setTimeout(() => {
+      circle.style.transition = 'fill 0.1s ease, transform 0.18s ease';
+      circle.style.transformOrigin = `${circle.getAttribute('cx')}px ${circle.getAttribute('cy')}px`;
+      circle.style.fill = '#FFD200';
+      circle.style.transform = 'scale(1.6)';
+      setTimeout(() => {
+        circle.style.fill = origFill;
+        circle.style.transform = 'scale(1)';
+      }, 200);
+    }, i * 25);
+  });
+
+  spawnSparkle(clientX, clientY);
 }
+
+document.querySelectorAll('.halftone-cluster').forEach(cluster => {
+  cluster.addEventListener('touchstart', function(e) {
+    e.stopPropagation();
+    const touch = e.touches[0];
+    if (touch) {
+      handleHalftoneTouch(cluster, touch.clientX, touch.clientY);
+    }
+  }, { passive: true });
+
+  cluster.addEventListener('click', function(e) {
+    handleHalftoneTouch(cluster, e.clientX, e.clientY);
+  });
+});
 
 // ==========================================================================
 // REGISTRATION BUTTON & MODAL
@@ -221,12 +231,15 @@ const registerForm = document.getElementById('registerForm');
 
 function fireConfetti() {
   try {
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.7 },
-      colors: ['#FFD200', '#FF4768', '#000000', '#FFFFFF']
-    });
+    const c = window.confetti;
+    if (typeof c === 'function') {
+      c({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.7 },
+        colors: ['#FFD200', '#FF4768', '#000000', '#FFFFFF']
+      });
+    }
   } catch (err) { /* silent */ }
 }
 
