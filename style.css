@@ -469,7 +469,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 0;
-  margin-bottom: 4px;
+  margin-bottom: clamp(14px, 2.8vh, 28px);
 }
 
 /* Top Curly Swirl */
@@ -1055,7 +1055,7 @@ body {
   /* -- LOGO: Larger and more dominant on mobile -- */
   .logo-wrapper {
     margin-top: 8px;
-    margin-bottom: 16px;   /* generous gap before cards/countdown */
+    margin-bottom: 24px;   /* generous gap before tagline + cards */
   }
 
   .logo-word-makeaton {
