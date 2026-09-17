@@ -71,6 +71,47 @@ body {
 }
 
 /* ==========================================================================
+   MOBILE TOUCH INTERACTIONS — DOODLES & BACKGROUND
+   ========================================================================== */
+
+@keyframes doodle-pop {
+  0%   { transform: scale(1) rotate(0deg); }
+  25%  { transform: scale(1.75) rotate(18deg); }
+  55%  { transform: scale(0.85) rotate(-8deg); }
+  80%  { transform: scale(1.15) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes dot-burst {
+  0%   { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(245,199,56,0.6); }
+  60%  { transform: scale(2.8); opacity: 0.5; box-shadow: 0 0 0 8px rgba(245,199,56,0); }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+
+@keyframes touch-sparkle-in {
+  0%   { transform: translate(-50%,-50%) scale(0) rotate(0deg); opacity: 1; }
+  45%  { transform: translate(-50%,-50%) scale(1.3) rotate(45deg); opacity: 1; }
+  100% { transform: translate(-50%,-50%) scale(0) rotate(90deg); opacity: 0; }
+}
+
+.doodle.touch-pop {
+  animation: doodle-pop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+}
+
+.doodle-dot.touch-pop {
+  animation: dot-burst 0.42s ease-out forwards !important;
+}
+
+.tap-sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 24px;
+  height: 24px;
+  animation: touch-sparkle-in 0.55s ease-out forwards;
+}
+
+/* ==========================================================================
    ANGLED TAPE BANNERS (TOP & BOTTOM)
    ========================================================================== */
 
@@ -1229,8 +1270,20 @@ body {
     display: none;
   }
 
-  /* Fade doodles on mobile for text clarity */
-  .doodle, .grid-pattern, .paper-plane-wrapper {
+  /* Doodles: slightly more visible + touchable on mobile */
+  .doodle {
+    opacity: 0.55;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .doodle-dot {
+    opacity: 0.65;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .grid-pattern, .paper-plane-wrapper {
     opacity: 0.28;
   }
 
